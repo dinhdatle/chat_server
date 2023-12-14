@@ -28,13 +28,11 @@ app.use("/api/chat", chatRouter);
 app.use("/api/message", messageRouter);
 
 const httpServer = createServer(app);
-// const io = new Server(httpServer, {
-//   cors: {
-//     origin: client,
-//   },
-// });
-
-const io = new Server(httpServer);
+const io = new Server(httpServer, {
+  cors: {
+    origin: client,
+  },
+});
 
 io.on("connection", (socket) => {
   console.log("Connected to socket.io");
