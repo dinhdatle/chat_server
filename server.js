@@ -20,7 +20,7 @@ const port = process.env.PORT || 5000;
 const client = process.env.CLIENT;
 
 // Cho phép tất cả các domain truy cập
-app.use(cors({ origin: "*" }));
+// app.use(cors({ origin: "*" }));
 
 app.get("/", (req, res) => {
   res.send("API is Running");
@@ -31,12 +31,11 @@ app.use("/api/chat", chatRouter);
 app.use("/api/message", messageRouter);
 
 const httpServer = createServer(app);
-// const io = new Server(httpServer, {
-//   cors: {
-//     origin: client,
-//   },
-// });
-const io = new Server(httpServer);
+const io = new Server(httpServer, {
+  cors: {
+    origin: "*",
+  },
+});
 io.on("connection", (socket) => {
   console.log("Connected to socket.io");
 
