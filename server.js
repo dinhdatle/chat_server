@@ -9,13 +9,13 @@ import messageRouter from "./routes/messageRoutes.js";
 import { createServer } from "http";
 import { Server } from "socket.io";
 // import path from "path";
-import cors from "cors";
+// import cors from "cors";
 const app = express();
 
 dotenv.config();
 connectDB();
 app.use(express.json());
-app.use(cors());
+// app.use(cors());
 const port = process.env.PORT || 5000;
 const client = process.env.CLIENT;
 
