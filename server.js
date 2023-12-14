@@ -18,7 +18,13 @@ app.use(express.json());
 
 const port = process.env.PORT || 5000;
 const client = process.env.CLIENT;
-app.use(cors({ origin: client }));
+// Thêm middleware CORS và thiết lập headers trực tiếp
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", client);
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  next();
+});
 
 app.get("/", (req, res) => {
   res.send("API is Running");
