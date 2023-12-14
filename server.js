@@ -15,13 +15,10 @@ const app = express();
 dotenv.config();
 connectDB();
 app.use(express.json());
-app.use(
-  cors({
-    origin: true,
-  })
-);
+
 const port = process.env.PORT || 5000;
 const client = process.env.CLIENT;
+app.use(cors({ origin: client }));
 
 app.get("/", (req, res) => {
   res.send("API is Running");
