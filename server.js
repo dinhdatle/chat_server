@@ -8,8 +8,6 @@ import chatRouter from "./routes/chatRoutes.js";
 import messageRouter from "./routes/messageRoutes.js";
 import { createServer } from "http";
 import { Server } from "socket.io";
-// import path from "path";
-import cors from "cors";
 const app = express();
 
 dotenv.config();
@@ -17,10 +15,7 @@ connectDB();
 app.use(express.json());
 
 const port = process.env.PORT || 5000;
-const client = process.env.CLIENT;
-
-// Cho phép tất cả các domain truy cập
-// app.use(cors({ origin: "*" }));
+// const client = process.env.CLIENT;
 
 app.get("/", (req, res) => {
   res.send("API is Running");
@@ -31,11 +26,15 @@ app.use("/api/chat", chatRouter);
 app.use("/api/message", messageRouter);
 
 const httpServer = createServer(app);
-const io = new Server(httpServer, {
-  cors: {
-    origin: "*",
-  },
-});
+
+// const io = new Server(httpServer, {
+//   cors: {
+//     origin: "http://localhost:3000/",
+//   },
+// });
+
+const io = new Server(httpServer);
+
 io.on("connection", (socket) => {
   console.log("Connected to socket.io");
 
