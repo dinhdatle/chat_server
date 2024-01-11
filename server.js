@@ -9,13 +9,18 @@ import messageRouter from "./routes/messageRoutes.js";
 import { createServer } from "http";
 import { Server } from "socket.io";
 const app = express();
+import cors from "cors";
 
 dotenv.config();
 connectDB();
-app.use(express.json());
 
+const corsOptions = {
+  origin: "*",
+  optionsSuccessStatus: 200, // some legacy browsers (IE11) choke on 204
+};
 const port = process.env.PORT || 5000;
-// const client = process.env.CLIENT;
+app.use(cors(corsOptions));
+app.use(express.json());
 
 app.get("/", (req, res) => {
   res.send("API is Running");
@@ -26,15 +31,12 @@ app.use("/api/chat", chatRouter);
 app.use("/api/message", messageRouter);
 
 const httpServer = createServer(app);
-
-// const io = new Server(httpServer, {
-//   cors: {
-//     origin: "http://localhost:3000/",
-//   },
-// });
-
-const io = new Server(httpServer);
-
+const io = new Server(httpServer, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"],
+  },
+});
 io.on("connection", (socket) => {
   console.log("Connected to socket.io");
 

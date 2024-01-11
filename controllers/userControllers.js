@@ -1,6 +1,7 @@
 import asyncHandler from "express-async-handler";
 import User from "../models/userModel.js";
 import generateToken from "../config/generateToken.js";
+import { Resend } from "resend";
 
 export const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password, pic } = req.body;
